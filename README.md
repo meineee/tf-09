@@ -1,0 +1,3 @@
+- **Encapsulamento:** Interface: consulta `atalho.destino` e muda o destino com `redirecionar()`. Implementação: `__destino` fica privado e as validações impedem os ciclos.
+- **Herança:** Interface: usa o Atalho como um `Item`, com nome, pai, caminho e `mover_para()`. Implementação: esses atributos e comportamentos vêm de `Item`, sem serem duplicados em `Atalho`.
+- **Polimorfismo:** Interface: chamam `tamanho()` ou `mostrar()` sem precisar saber o tipo concreto. Implementação: `Atalho` informa tamanho 1 e define sua própria exibição com o caminho do destino.
