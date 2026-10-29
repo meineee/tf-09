@@ -130,6 +130,40 @@ class Pasta(Item):
             filho.mostrar()
 
 
+class Atalho(Item):
+    __slots__ = ("__destino",)
+
+    def __init__(self, nome, destino, pai=None):
+        self.__validar_destino(destino, pai)
+        super().__init__(nome, pai)
+        self.__destino = destino
+
+    @property
+    def destino(self):
+        return self.__destino
+
+    def __validar_destino(self, novo_destino, pai):
+        if novo_destino is self:
+            raise ValueError("um atalho não pode apontar para si mesmo")
+
+        ancestral = pai
+        while ancestral is not None:
+            if ancestral is novo_destino:
+                raise ValueError("um destino não pode apontar para uma pasta que já contém o atalho")
+            ancestral = ancestral.pai
+
+    def redirecionar(self, novo_destino):
+        self.__validar_destino(novo_destino, self.pai)
+        self.__destino = novo_destino
+
+    def tamanho(self):
+        return 1
+
+    def mostrar(self):
+        recuo = "    " * self.profundidade()
+        print(recuo + self.nome + " -> " + self.destino.caminho())
+
+
 # Outra classe que assina o contrato SEM ser da árvore: a Lixeira.
 class Lixeira(Medivel):
     __slots__ = ("__descartados",)
