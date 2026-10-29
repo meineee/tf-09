@@ -195,3 +195,41 @@ def tentar(rotulo, acao):
         print(rotulo, "-> passou (!)")
     except Exception as erro:
         print(rotulo, "->", type(erro).__name__ + ":", erro)
+
+
+if __name__ == "__main__":
+    unidade = Pasta("C:")
+    usuarios = Pasta("Users", unidade)
+    usuario = Pasta("Nicolas", usuarios)
+    desktop = Pasta("Desktop", usuario)
+
+    relatorio = Arquivo("relatorio.txt", 1200, desktop)
+    foto = Arquivo("foto.png", 3500, desktop)
+    documentos = Pasta("Documentos", desktop)
+    projetos = Pasta("Projetos", desktop)
+    Arquivo("codigo.py", 800, projetos)
+
+    atalho_relatorio = Atalho("relatorio (atalho)", relatorio, documentos)
+    atalho_projetos = Atalho("Projetos (atalho)", projetos, documentos)
+
+    lixeira = Lixeira()
+    lixeira.descartar(Arquivo("rascunho.tmp", 250))
+
+    print("Árvore completa:")
+    unidade.mostrar()
+
+    print("\nEspaço total:", espaco_total([relatorio, documentos, lixeira]), "B")
+
+    print("\nTentativas inválidas:")
+    tentar(
+        "Alterar destino pela propriedade",
+        lambda: setattr(atalho_relatorio, "destino", foto),
+    )
+    tentar(
+        "Redirecionar atalho para si mesmo",
+        lambda: atalho_relatorio.redirecionar(atalho_relatorio),
+    )
+    tentar(
+        "Redirecionar atalho para a pasta que o contém",
+        lambda: atalho_projetos.redirecionar(documentos),
+    )
